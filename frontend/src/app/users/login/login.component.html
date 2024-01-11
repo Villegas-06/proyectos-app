@@ -1,0 +1,76 @@
+<div class="container">
+  <div id="headerRegister">
+    <br />
+    <header><h1>Inicia Sesi&oacute;n</h1></header>
+    <section>
+      <p id="login" class="mt-3">
+        ¿Deseas registrarte?
+        <a [attr.href]="'/register'" id="signUp"><b>Registro</b></a>
+      </p>
+    </section>
+  </div>
+  <div class="form-content">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" id="registerForm">
+      <div class="input-group">
+        <div class="input-field">
+          <label for="namer">Por favor ingresa tu email</label>
+          <br />
+          <i class="fa-solid fa-envelope"></i>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            required
+            placeholder="Email"
+          />
+          <div
+            *ngIf="
+              registerForm.get('email')?.hasError('required') &&
+              registerForm.get('email')?.touched
+            "
+          >
+            <div class="alert alert-danger">Este campo es requerido</div>
+          </div>
+          <div *ngIf="registerForm.get('email')?.hasError('email')">
+            <div class="alert alert-danger">
+              Por favor ingrese un email valido
+            </div>
+          </div>
+        </div>
+
+        <div class="input-field">
+          <label for="namer">Por favor ingresa tu constraseña</label>
+          <br />
+          <i class="fa-solid fa-key"></i>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Contraseña"
+            required
+            minlength="8"
+          />
+          <div
+            *ngIf="
+              registerForm.get('password')?.hasError('required') &&
+              registerForm.get('password')?.touched
+            "
+          >
+            <div class="alert alert-danger">Este campo es requerido</div>
+          </div>
+          <div *ngIf="registerForm.get('password')?.hasError('minlength')">
+            <div class="alert alert-danger">
+              La contraseña debe tener mas de 8 caracteres
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-field">
+        <button id="signUp" type="submit" [disabled]="!isFormValid()">
+          Iniciar Sesi&oacute;n
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
