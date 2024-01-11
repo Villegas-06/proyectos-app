@@ -11,7 +11,6 @@ const User = require('../models/user_model');
 const config = require('../config/config');
 
 router.post('/register', (req, res) => {
-    console.log(req.body);
     if (req.body.name &&
         req.body.lastname &&
         req.body.username &&
@@ -28,10 +27,9 @@ router.post('/register', (req, res) => {
         });
         User.addUser(newUser, (result, err) => {
             if (err) {
-                console.log(err);
-                res.json({ success: false, message: "Error al registrar el usuario" });
+                res.json({ success: false, message: "Error al registrar el usuario", error: err });
             } else {
-                res.json({ user: result });
+                res.json({ success: true, user: result });
             }
         });
     } else {
@@ -70,6 +68,7 @@ router.post("/authenticate", async (req, res, next) => {
                         _id: user._id,
                         nombre: user.name,
                         apellido: user.lastname,
+                        username: user.username,
                         email: user.email,
                         tipo: user.userType,
                     },

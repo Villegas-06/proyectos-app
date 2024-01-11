@@ -1,16 +1,21 @@
-'use strict'
+'use strict';
 
 const constructorProject = require('../models/constructor_model');
 
 exports.getAll = function (req, res) {
-    constructorProject.getAll({}, function (err, result) {
-        if (!err) {
-            return res.json(result)
-        } else {
-            return res.send(err)
-        }
-    })
-}
+    constructorProject.getAll({})
+        .then(result => {
+            return res.json(result);
+        })
+        .catch(err => {
+            console.error("Error al obtener proyectos:", err);
+            return res.status(500).json({
+                success: false,
+                message: 'Error al obtener proyectos',
+                data: err
+            });
+        });
+};
 
 exports.create = function (req, res) {
     const projectObj = {
@@ -18,21 +23,23 @@ exports.create = function (req, res) {
         initial_project_date: new Date(req.body.initial_project_date),
         final_project_date: new Date(req.body.final_project_date),
         images: req.body.images ? req.body.images : [],
+        items_list: req.body.items_list ? req.body.items_list : [],
     };
 
-    constructorProject.create(projectObj, function (err, result) {
-        if (!err) {
-            res.status(201).json({
+    constructorProject.create(projectObj)
+        .then(result => {
+            return res.status(201).json({
                 success: true,
                 message: "Proyecto creado correctamente",
                 data: result
-            })
-        } else {
-            res.status(400).json({
+            });
+        })
+        .catch(err => {
+            console.error("Error al crear el proyecto:", err);
+            return res.status(400).json({
                 success: false,
                 message: 'Error al crear un proyecto',
                 data: err
-            })
-        }
-    })
-}
+            });
+        });
+};

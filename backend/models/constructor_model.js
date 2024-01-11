@@ -16,20 +16,21 @@ const ConstructorSchema = new mongoose.Schema({
 });
 
 ConstructorSchema.statics = {
-    get: function (query, callback) {
-        this.findOne(query).exec(callback)
+    get: function (query) {
+        return this.findOne(query).exec();
     },
-    getAll: function (query, callback) {
-        this.find(query).exec(callback)
+    getAll: function (query) {
+        return this.find(query).exec();
     },
-    removeById: function (removeData, callback) {
-        this.findOneAndRemove(removeData, callback)
+    removeById: function (removeData) {
+        return this.findOneAndRemove(removeData).exec();
     },
-    create: function (data, callback) {
-        const package = new this(data)
-        package.save(data)
+    create: function (data) {
+        const package = new this(data);
+        return package.save();
     }
-}
+};
+
 
 ConstructorSchema.plugin(mongoosePaginate);
 

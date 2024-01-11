@@ -47,14 +47,18 @@ const User = (module.exports = mongoose.model("User", UserSchema));
 
 // Specific backend methods
 
-module.exports.getUserById = async function (id) {
-    try {
-        const user = await User.findById(id);
-        return user;
-    } catch (err) {
-        throw err;
-    }
+module.exports.getUserById = function (id) {
+    return User.findById(id).exec();
 };
+
+// module.exports.getUserById = async function (id) {
+//     try {
+//         const user = await User.findById(id);
+//         return user;
+//     } catch (err) {
+//         throw err;
+//     }
+// };
 
 module.exports.getUserByEmail = async function (email) {
     try {
