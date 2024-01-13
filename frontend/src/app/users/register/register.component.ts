@@ -56,8 +56,6 @@ export class RegisterComponent {
     const formData = this.registerForm.value;
     this.userService.register(formData).subscribe(
       (response: any) => {
-        console.log(response);
-
         if (response.success) {
           Swal.fire({
             title: 'Registro exitoso!',
@@ -79,9 +77,7 @@ export class RegisterComponent {
           });
         }
       },
-      (error: any) => {
-        console.log(error);
-      }
+      (error: any) => {}
     );
   }
 }

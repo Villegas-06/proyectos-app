@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -8,7 +13,7 @@ import { AuthService } from './auth.service';
 export class AuthGuard implements CanActivate {
   constructor(private router: Router, private authService: AuthService) {}
 
-  canActivate(): boolean {
+  canActivate(route: ActivatedRouteSnapshot): boolean {
     const token = this.authService.getTokenInfo();
     const hasToken: boolean = token !== undefined && token !== null;
 
@@ -19,19 +24,21 @@ export class AuthGuard implements CanActivate {
 
     const userType = this.authService.getUserInfo();
 
-    // Agregar lógica para verificar el tipo de usuario y permitir o denegar el acceso a rutas
-    if (userType) {
-      if (userType.toLowerCase() === 'constructor') {
-        // Usuario tipo 'constructor' puede acceder a ciertas rutas
-        return true;
-      } else if (userType.toLowerCase() === 'proveedor') {
-        // Usuario tipo 'proveedor' puede acceder a otras rutas
-        return true;
-      }
+    if (!userType) {
+      // Si el tipo de usuario no está definido, redirigir a la página de login
+      this.router.navigate(['/login']);
+      return false;
     }
 
-    // Si el tipo de usuario no es reconocido, redirige a la página de login
-    this.router.navigate(['/login']);
-    return false;
+    const allowedRoles = (route.data as { allowedRoles: string[] })
+      .allowedRoles;
+
+    if (allowedRoles && !allowedRoles.includes(userType)) {
+      // Si el tipo de usuario no está permitido para esta ruta, redirigir a login
+      this.router.navigate(['/login']);
+      return false;
+    }
+
+    return true;
   }
 }

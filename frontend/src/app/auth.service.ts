@@ -19,11 +19,6 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  private getUser(): any | null {
-    const userJson = localStorage.getItem(this.USER_KEY);
-    return userJson ? JSON.parse(userJson) : null;
-  }
-
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
@@ -39,14 +34,12 @@ export class AuthService {
     localStorage.removeItem(this.USER_KEY);
     this.isLoggedInSubject.next(false);
   }
+
   getUserInfo(): string | null {
     const user = localStorage.getItem(this.USER_KEY);
 
-    console.log('User from localStorage:', user);
-
     if (user) {
       const userObj = JSON.parse(user);
-      console.log('User object:', userObj);
       return userObj.tipo || null;
     }
 

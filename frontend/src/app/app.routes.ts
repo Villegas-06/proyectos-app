@@ -13,10 +13,12 @@ export const routes: Routes = [
     path: 'constructor',
     component: ConstructorComponent,
     canActivate: [AuthGuard],
+    data: { allowedRoles: ['Constructor'] },
   },
   {
     path: 'proveedor',
     component: ProveedorComponent,
     canActivate: [AuthGuard],
+    data: { allowedRoles: ['Proveedor'] },
   },
 ];
