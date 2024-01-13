@@ -143,6 +143,5 @@ export class ConstructorComponent {
         console.error('Error creating project:', error);
       }
     );
-    console.log(this.createProject.value);
   }
 }
