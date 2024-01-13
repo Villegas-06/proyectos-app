@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
 const ConstructorSchema = new mongoose.Schema({
-    project_name: { type: String, required: true },
-    initial_project_date: { type: Date, required: true },
-    final_project_date: { type: Date, required: true },
-    images: { type: Array, required: true },
+    project_name: { type: String, required: false },
+    initial_project_date: { type: Date, required: false },
+    final_project_date: { type: Date, required: false },
+    images: { type: Array, required: false },
     items_list: [
         {
-            item_name: { type: String, required: true },
-            unit_value: { type: Number, required: true }
+            item_name: { type: String, required: false },
+            unit_value: { type: Number, required: false }
         }
     ],
     createdAt: { type: Date, required: false, default: Date.now }

@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport')
-const path = require('path')
 const cors = require('cors');
 
 const config = require('./config/config');
@@ -56,3 +55,4 @@ app.use('/api', router)
 
 require('./routes/api/user')(router);
 require('./routes/api/constructor')(router);
+require('./routes/api/images')(router);
